@@ -66,6 +66,7 @@ public abstract class Repository<E extends Entity> implements EntityObserver<E> 
     // PUBLIC METHODS
     // ===================================
 
+    // FIXME Use Optional..
     public E find(String key) {
 
         E entity = loaded.get(key);

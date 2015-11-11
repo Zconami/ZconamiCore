@@ -2,11 +2,14 @@ package com.zconami.Core.util;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -38,6 +41,19 @@ public class Utils {
     // PUBLIC METHODS
     // ===================================
 
+    public static Optional<OfflinePlayer> getPlayer(String name) {
+        for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
+            if (name.equalsIgnoreCase(offlinePlayer.getName())) {
+                return Optional.of(offlinePlayer);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public static OfflinePlayer getPlayer(UUID uuid) {
+        return Bukkit.getOfflinePlayer(uuid);
+    }
+
     public static int ticksFromSeconds(int seconds) {
         return seconds * TICKS_PER_SECOND;
     }
@@ -46,12 +62,12 @@ public class Utils {
         return getPlugin(pluginName).getLogger();
     }
 
-    public static void broadcastMessage(String message) {
-        Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[Caravans->Server] " + ChatColor.WHITE + message);
+    public static void broadcastMessage(String from, String message) {
+        Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + from + "->Server] " + ChatColor.WHITE + message);
     }
 
-    public static void sendMessage(CommandSender sender, String message) {
-        sender.sendMessage(ChatColor.DARK_GRAY + "[Caravans->You] " + ChatColor.WHITE + message);
+    public static void sendMessage(CommandSender sender, String from, String message) {
+        sender.sendMessage(ChatColor.DARK_GRAY + "[" + from + "->You] " + ChatColor.WHITE + message);
     }
 
     public static <I> void sendTable(CommandSender sender, int pageNumber, String title, String description,
@@ -119,7 +135,7 @@ public class Utils {
 
     private static String makeHeader(String text) {
         final StringBuilder stringBuilder = new StringBuilder(ChatColor.GOLD + "▀▀▀ " + text + " ");
-        for (int i = 0; i < 40 - text.length(); i++) {
+        for (int i = 0; i < 25 - text.length(); i++) {
             stringBuilder.append("▀");
         }
         return stringBuilder.toString();

@@ -1,0 +1,6 @@
+name: ZconamiCore
+main: com.zconami.Core.ZconamiCorePlugin
+depend: []
+version: 1.0
+authors: [Autonomy]
+website: http://zconami.com/
